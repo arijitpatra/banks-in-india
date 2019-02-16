@@ -1,0 +1,73 @@
+<div class="container-fluid pt-5">
+  <h3 class="pb-4">
+    <i class="fa fa-credit-card-alt mr-2 text-danger" aria-hidden="true"></i
+    >Banks in {{ selectedCity }}
+  </h3>
+
+  <select (change)="onCityChange($event.target.value)" class="p-2">
+    <!-- <optgroup label="Metropolitans"> -->
+    <option value="MUMBAI">Mumbai</option>
+    <option value="PUNE">Pune</option>
+    <option value="BANGALORE">Bangalore</option>
+    <option value="KOLKATA">Kolkata</option>
+    <option value="DELHI">Delhi</option>
+    <!-- </optgroup> -->
+  </select>
+
+  <input
+    placeholder="Search..."
+    [(ngModel)]="filterText"
+    (ngModelChange)="doFilter()"
+    class="p-1 ml-5"
+  />
+  <span *ngIf="isFilterTextDebounce" class="ml-2"
+    ><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw text-muted"></i
+  ></span>
+
+  <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>IFSC</th>
+        <th>Id</th>
+        <th>Branch</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>District</th>
+        <th>State</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="isDataLoading">
+      <tr>
+        <td><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></td>
+        <td><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></td>
+        <td><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></td>
+        <td><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></td>
+        <td><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></td>
+        <td><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></td>
+        <td><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></td>
+        <td><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="!isDataLoading">
+      <tr *ngFor="let item of filteredData">
+        <td>{{ item.ifsc }}</td>
+        <td>{{ item.bank_id }}</td>
+        <td>{{ item.branch }}</td>
+        <td>{{ item.address }}</td>
+        <td>{{ item.city }}</td>
+        <td>{{ item.district }}</td>
+        <td>{{ item.state }}</td>
+        <td>{{ item.bank_name }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div
+    *ngIf="
+      filteredData.length === 0 && filterText.length !== 0 && !isDataLoading
+    "
+  >
+    No matching data.
+  </div>
+</div>
